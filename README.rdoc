@@ -1,0 +1,43 @@
+= Request Routing 2 Plugin for Ruby on Rails
+
+(c) Marek Jelen 2009 (marek@jelen.biz)
+
+based on Request Routing Plugin for Ruby on Rails by Dan Webb 2006 (dan@vivabit.com)
+
+Plugin that allows you to define routing conditions that test 
+methods/properties of the request object such as subdomain, domain,
+port.  You can test them either against a value or with a Regexp
+(assuming the method returns a string)
+
+Works with Rails 2.3 ( other versions not tested )
+
+== Usage
+
+In routes.rb you can specify use the :requirements hash with request properties:
+
+  map.connect '', :controller => 'main', :conditions => { :subdomain => 'www' }
+  map.connect 'admin', :controller => 'admin', :conditions => { :remote_ip => /^127\.0\.0\.[0-9]$/ }
+
+You can also, of course, use the conditions hash in map.with_options calls.
+
+The allowed properties are:
+
+  :subdomain  (only checks the first subdomain)
+  :domain (only accurate for single tld domain names at the moment)
+  :method (a symbol)
+  :port (a number)
+  :remote_ip 
+  :content_type (content type of the post body)
+  :accepts 
+  :request_uri (the entire request uri)
+  :protocol (either http:// or https://)
+
+And some added:
+
+  Checks whether paramers HAVE  expected values
+  :param => ['param', 'value']
+  :params => {:param1 => 'value1', :param2 => 'value2'}
+  
+  Checks whether paramers DOES NOT HAVE expected values
+  :nparam => ['param', 'value']
+  :nparams => {:param1 => 'value1', :param2 => 'value2'}
